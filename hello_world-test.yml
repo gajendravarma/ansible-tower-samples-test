@@ -6,7 +6,7 @@
 
     - name: Download VLC Installer
       win_get_url:
-        url: "https://mirror.cedia.org.ec/videolan/vlc/3.0.20/win64/vlc-3.0.20-win64.exe"
+        url: "https://get.videolan.org/vlc/3.0.20/win64/vlc-3.0.20-win64.exe"
         dest: "C:\\Users\\GajendraN\\Downloads\\vlc_installer.exe"
 
     - name: Install VLC
