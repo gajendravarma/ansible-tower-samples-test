@@ -1,18 +1,25 @@
 ---
-- name: Install MySQL on Linux
+- name: Install VLC on Windows Server
   hosts: all
-  become: yes
+  become: no  # Windows does not use sudo
   tasks:
 
-    - name: Install MySQL (Debian-based)
-      apt:
-        name: mysql-server
-        state: present
-        update_cache: yes
-      when: ansible_os_family == "Debian"
+    - name: Download VLC Installer
+      win_get_url:
+        url: "https://mirror.cedia.org.ec/videolan/vlc/3.0.20/win64/vlc-3.0.20-win64.exe"
+        dest: "C:\\Users\\GajendraN\\Downloads\\vlc_installer.exe"
 
-    - name: Start MySQL/MariaDB Service
-      service:
-        name: "{{ 'mysql' if ansible_os_family == 'Debian' else 'mariadb' }}"
-        state: started
-        enabled: yes
+    - name: Install VLC
+      win_command: 'C:\\Users\\GajendraN\\Downloads\\vlc_installer.exe /S'
+      args:
+        chdir: "C:\\Users\\GajendraN\\Downloads"
+
+    - name: Verify VLC Installation
+      win_stat:
+        path: "C:\\Program Files\\VideoLAN\\VLC\\vlc.exe"
+      register: vlc_installed
+
+    - name: Display Installation Status
+      debug:
+        msg: "VLC installation was successful!"
+      when: vlc_installed.stat.exists
