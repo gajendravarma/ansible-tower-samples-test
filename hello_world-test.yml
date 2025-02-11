@@ -8,20 +8,11 @@
       apt:
         name: mysql-server
         state: present
+        update_cache: yes
       when: ansible_os_family == "Debian"
 
-    - name: Install MySQL (RedHat-based)
-      yum:
-        name: mysql-server
-        state: present
-      when: ansible_os_family == "RedHat"
-
-    - name: Start MySQL Service
+    - name: Start MySQL/MariaDB Service
       service:
-        name: mysql
+        name: "{{ 'mysql' if ansible_os_family == 'Debian' else 'mariadb' }}"
         state: started
         enabled: yes
-
-    - name: Secure MySQL Installation
-      command: mysql_secure_installation
-      ignore_errors: yes
