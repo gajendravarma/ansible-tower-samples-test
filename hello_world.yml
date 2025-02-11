@@ -1,7 +1,27 @@
-- name: Hello World Sample
+---
+- name: Install MySQL on Linux
   hosts: all
+  become: yes
   tasks:
-    - name: Hello Message
-      debug:
-        msg: "Hello World!"
 
+    - name: Install MySQL (Debian-based)
+      apt:
+        name: mysql-server
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install MySQL (RedHat-based)
+      yum:
+        name: mysql-server
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Start MySQL Service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: Secure MySQL Installation
+      command: mysql_secure_installation
+      ignore_errors: yes
