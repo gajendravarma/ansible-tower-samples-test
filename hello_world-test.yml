@@ -1,18 +1,22 @@
 ---
 - name: Install VLC on Windows Server
   hosts: all
-  become: no  # Windows does not use sudo
+  gather_facts: true
   tasks:
+
+    - name: Set Downloads folder path
+      set_fact:
+        downloads_path: "{{ ansible_env.USERPROFILE }}\\Downloads"
 
     - name: Download VLC Installer
       win_get_url:
         url: "https://get.videolan.org/vlc/3.0.20/win64/vlc-3.0.20-win64.exe"
-        dest: "C:\\Users\\GajendraN\\Downloads\\vlc_installer.exe"
+        dest: "{{ downloads_path }}\\vlc_installer.exe"
 
     - name: Install VLC
-      win_command: 'C:\\Users\\GajendraN\\Downloads\\vlc_installer.exe /S'
+      win_command: "vlc_installer.exe /S"
       args:
-        chdir: "C:\\Users\\GajendraN\\Downloads"
+        chdir: "{{ downloads_path }}"
 
     - name: Verify VLC Installation
       win_stat:
