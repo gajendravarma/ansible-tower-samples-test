@@ -1,6 +1,6 @@
 ---
 - name: Install VLC on Windows Server
-  hosts: all
+  hosts: windows
   become: no  # Windows does not use sudo
   tasks:
 
