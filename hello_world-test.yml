@@ -6,7 +6,7 @@
 
     - name: Set Downloads folder path
       set_fact:
-        downloads_path: "{{ ansible_env.USERPROFILE }}\\Downloads"
+        downloads_path: "C:\\"
 
     - name: Download VLC Installer
       win_get_url:
