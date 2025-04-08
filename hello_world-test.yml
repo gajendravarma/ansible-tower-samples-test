@@ -6,7 +6,12 @@
 
     - name: Set Downloads folder path
       set_fact:
-        downloads_path: "C:\\"
+        downloads_path: "C:\\Temp"
+
+    - name: Ensure C:\Temp exists
+      win_file:
+        path: "{{ downloads_path }}"
+        state: directory
 
     - name: Download VLC Installer
       win_get_url:
